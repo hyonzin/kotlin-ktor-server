@@ -11,7 +11,7 @@ fun Application.configureRouting() {
         }
 
         get("/api/merong") {
-            call.respond
+            call.respondText("윤나 메덩")
         }
     }
 }
