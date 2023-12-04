@@ -2,7 +2,7 @@
 # 
 # docker run --rm -d \
 # 		   --name practice-web-server-1 \
-# 		   -p 30000:30000 \
+# 		   -p 30000:8000 \
 # 		   practice-web-server:latest
 
 docker-compose up -d

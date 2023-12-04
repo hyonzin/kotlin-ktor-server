@@ -8,7 +8,7 @@ services:
       - "MY_VAR=${MY_VAR}"
     command: sh scripts/start.sh
     ports:
-      - 30000:30000
+      - 30000:8000
 networks:
   net:
 
