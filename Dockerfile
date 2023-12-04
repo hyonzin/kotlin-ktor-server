@@ -2,10 +2,16 @@
 FROM openjdk:11 AS build
 
 RUN mkdir /appbuild
-COPY . /appbuild
-
 WORKDIR /appbuild
-RUN bash gradlew clean build
+
+# Install Dependencies
+COPY gradle /appbuild/gradle
+COPY gradlew gradle.properties build.gradle.kts settings.gradle.kts /appbuild
+RUN bash gradlew clean build -x test --parallel --continue > /dev/null 2>&1 || true
+
+# Build App
+COPY . /appbuild
+RUN bash gradlew build --parallel
 # End App Building phase --------
 
 # Container setup --------
@@ -34,3 +40,4 @@ WORKDIR /app
 # Entrypoint definition
 CMD ["sh", "scripts/start.sh"]
 # End Container setup --------
+
