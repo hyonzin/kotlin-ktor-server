@@ -1,0 +1,14 @@
+version: "3"
+services:
+  app:
+    image: practice-web-server:latest
+    networks:
+      - net
+    environment:
+      - "MY_VAR=${MY_VAR}"
+    command: sh scripts/start.sh
+    ports:
+      - 30000:30000
+networks:
+  net:
+

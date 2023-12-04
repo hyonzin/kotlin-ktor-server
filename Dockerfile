@@ -1,20 +1,20 @@
 # App Building phase --------
-FROM openjdk:8 AS build
+FROM openjdk:11 AS build
 
-RUN mkdir -p /appbuild/resources
+RUN mkdir /appbuild
 COPY . /appbuild
 
 WORKDIR /appbuild
-
 RUN bash gradlew clean build
 # End App Building phase --------
 
 # Container setup --------
-FROM openjdk:8-jre-alpine
+FROM openjdk:11-jre-slim-buster
 
 # Creating user
 ENV APPLICATION_USER 1033
-RUN adduser -D -g '' $APPLICATION_USER
+# RUN adduser --force-badname $APPLICATION_USER
+RUN useradd $APPLICATION_USER
 
 # Giving permissions
 RUN mkdir /app
@@ -27,9 +27,10 @@ USER $APPLICATION_USER
 
 # Copying needed files
 COPY --from=build /appbuild/build/libs/*-all.jar /app/app.jar
-COPY --from=build /appbuild/resources/ /app/resources/
+COPY --from=build /appbuild/resources /app/resources
+COPY scripts /app/scripts
 WORKDIR /app
 
 # Entrypoint definition
-CMD ["sh", "-c", "java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar app.jar"]
+CMD ["sh", "scripts/start.sh"]
 # End Container setup --------
