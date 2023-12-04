@@ -10,6 +10,14 @@ fun Application.configureRouting() {
             call.respondText("Hello World!")
         }
 
+        get("/health") {
+            call.respondText("UP")
+        }
+
+        get("/api/health") {
+            call.respondText("UP")
+        }
+
         get("/api/merong") {
             call.respondText("윤나 메덩")
         }
