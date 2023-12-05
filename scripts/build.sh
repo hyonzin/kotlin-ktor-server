@@ -1,2 +1,2 @@
-docker build -t practice-web-server:latest .
+docker build -t kotlin-ktor-server:latest .
 

@@ -1,7 +1,7 @@
 version: "3"
 services:
   app:
-    image: practice-web-server:latest
+    image: kotlin-ktor-server:latest
     networks:
       - net
     environment:
